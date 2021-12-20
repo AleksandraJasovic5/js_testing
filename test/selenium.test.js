@@ -13,5 +13,8 @@ describe('Maths test', async function() {
     it('Test if 1 + 1 = 2', function() {
         assert.equal(MyMath.add(1,1), 2);
     });
+    it('Test if 4 - 3 = 1', async function() {
+        assert.equal(MyMath.sub(4,3), 1);
+    });
 
 });
