@@ -1,7 +1,10 @@
 
 
-const webdriver = require('selenium-webdriver');
-const assert = require('assert');
+const {Builder} = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+const chai = require ('chai');
+const assert = chai.assert;
+const expect = chai.expect;
 
 
 describe('Selenium Tests', function() {
@@ -9,18 +12,25 @@ describe('Selenium Tests', function() {
     let driver;
    
     before(async function() {
-        driver = new webdriver.Builder().forBrowser('chrome').build();
-        await driver.get('https://google.com/');
+        let service = new chrome.ServiceBuilder('E:\\QA kurs\\js_testing\\chromedriver\\chromedriver.exe').build()
+        chrome.setDefaultService(service);
+
+        driver = await new Builder().forBrowser('chrome').build();
+        
 
     });
     after(async function() {
         await driver.quit();
     });
-
+describe('Oppening page', function() {
     it('Open Google.com', async function() {
+        await driver.get('https://google.com/');
+        const pageTitle = await driver.getTitle();
+        console.log(pageTitle);
         
-        assert.equal(1,1);
+        expect(pageTitle).to.contain('Google');
     });
+});
 });
 
 
