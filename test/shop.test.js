@@ -77,12 +77,12 @@ it('Add item to cart-Starter,  2 items', async function() {
 
     await Promise.all(options.map(async function (option) {
         const text = await option.getText();
-        if(text === '5') {
+        if(text === '2') {
         await option.click();
 
         const selectedValue = await quantity.getAttribute('value');
 
-        expect(selectedValue).to.contain('5');
+        expect(selectedValue).to.contain('2');
 
         
 
