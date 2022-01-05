@@ -102,4 +102,39 @@ it('Opens shoping cart', async function() {
 
     expect(await driver.findElement(By.css('h1')).getText()).to.contain('Order');
 });
-}); 
+it('Verifies items are i chart - Starter, 2 items', async function() {
+    const orderTable = await driver.findElement(By.css('table'));
+    const orderRow = await orderTable.findElement(By.xpath('//table//td[contains(., "STARTER")]/parent::tr'));
+
+    const orderQty = await orderRow.findElement(By.xpath('td[2]'));
+
+    expect(await orderQty.getText()).to.eq('2');
+});
+it('Verifies total item price is correct', async function() {
+    const orderTable = await driver.findElement(By.css('table'));
+    const orderRow = await orderTable.findElement(By.xpath('//table//td[contains(., "STARTER")]/parent::tr'));
+
+    const orderQty = await orderRow.findElement(By.xpath('td[2]'));
+    const orderPrice = await orderRow.findElement(By.xpath('td[3]'));
+    const orderTotal = await orderRow.findElement(By.xpath('td[4]'));
+
+
+    const price = Number((await orderPrice.getText()).substring(1));
+    const total = Number ((await orderTotal.getText()).substring(1));
+    const quantity = Number (await orderQty.getText());
+    
+    const calculatedTotal = quantity * price;
+
+    expect(calculatedTotal).to.be.equal(total);
+});
+it('Performs checkout', async function() {
+const checkoutBtn = await driver.findElement(By.name('checkout'));
+await checkoutBtn.click();
+expect(await driver.findElement(By.css('h2')).getText()).to.contain('order');
+});
+it('Performs Logout', async function() {
+const LogoutBtn = await driver.findElement(By.partialLinkText('Logout'));
+await LogoutBtn.click();
+expect(await driver.findElement(By.linkText('Login')).isDisplayed()).to.be.true;
+});
+});
